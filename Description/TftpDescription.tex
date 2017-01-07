@@ -1,0 +1,20 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{graphicx}
+\newgeometry{tmargin=2cm, bmargin=2cm, lmargin=2cm, rmargin=2cm}
+\author{Rafał Byczek}
+\title{Tftp - opis MiniProjektu}
+\begin{document}
+\maketitle
+Zacznę więc od opowiedzenia po krótce o pomocniczych zadaniach, które pojawiły się na satori i o moich rozwiązaniach do nich.
+\begin{itemize}
+\item \textbf{G - Klient TFTP (RFC 1350)}
+\\
+Moje rozwiązanie zostało zaimplementowane w pliku \textbf{clientTFTP.py}. My tutaj podajemy hosta i nazwę pliku  do ściągnięcia i w liniach od 40 do 45 następuję wstępne porozumienie z serwerem w celu ściągnięcia pliku. Główne ciało programu jest zawarte w funckji \textbf{def start(self)}, tutaj to też pytamy o plik i jak dostajemy pozwolenie to dopóki nie przyjdzie blok krótszy niż 512 bajtów albo coś się samo ze niezepsuje to trzymamy sobie zmienną informującą nas na paczkę o jakim numerze aktualnie oczekujemy, jeżeli taka też przyjdzie, co sprawdza funkcja \textbf{def check(self, out)} to jej zawartośc doklejamy do zawartości pobieranego pliku i odsyłamy serwerowi informację, że przyszło co miało przyjść, a jeżeli nas serwer oszuka i wyśle paczkę o innym numerze to my go o tym informujemy, że przyszła zła paczka i prosimy o poprawną jeszcze raz. I tak koniec końców jak plik się pobierze możemy albo poprzez metodę \textbf{def getFile(self)} dostać plik albo poprzez \textbf{def getCode(self)} wypisać kod md5 naszego pliku, który mieliśmy pobrać.
+\end{itemize}
+\end{document}
