@@ -5,6 +5,7 @@ import socket
 import struct
 import hashlib
 
+
 EMPTY = 0
 RRQ = 1
 WRQ = 2
@@ -14,7 +15,7 @@ ERROR = 5
 END = 10
 WRONG_NUMBER = 20
 NEXT = 30
-PORT = 69
+PORT = int(sys.argv[3])
 MAX_SIZE = 512
 
 
@@ -29,12 +30,13 @@ class tftpDownloader:
         self.data = str(struct.pack('!H', DATA))
         self.ack = str(struct.pack('!H', ACK))
         self.error = str(struct.pack('!H', ERROR))
-        self.file = ""
         self.filename = filename
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.octet = "octet"
         self.msg = 0
         self.addr = 0
+        self.file = ""
+        self.kod = hashlib.md5()
 
     def requestDownloadFile(self):
         message = self.rrq + self.filename + self.empty + self.octet + self.empty
@@ -47,9 +49,11 @@ class tftpDownloader:
     def check(self, out):
         text = struct.unpack('!HH', out[:4])
         if text[0] == DATA and text[1] == self.numer and len(out[4:]) < MAX_SIZE:
+            self.kod.update(str(out[4:]))
             self.file += str(out[4:])
             return END
         elif text[0] == DATA and text[1] == self.numer and len(out[4:]) >= MAX_SIZE:
+            self.kod.update(str(out[4:]))
             self.file += str(out[4:])
             return NEXT
         elif text[0] == DATA and text[1] != self.numer and len(out[4:]) == MAX_SIZE:
@@ -60,7 +64,7 @@ class tftpDownloader:
     def receivePacket(self, last):
         while True:
             try:
-                self.msg, self.addr = self.sock.recvfrom(2 * MAX_SIZE)
+                self.msg, self.addr = self.sock.recvfrom(8 * MAX_SIZE)
                 return
             except socket.timeout:
                 self.sock.sendto(last, (self.host, self.port))
@@ -68,20 +72,24 @@ class tftpDownloader:
 
     def start(self):
         self.requestDownloadFile()
-        k = NEXT
-        while k != END:
+        
+        while True:
             k = self.check(self.msg)
             last = str(struct.pack('!HH', ACK, self.numer))
+
+            if k == END:
+            	break
 
             if k == NEXT:
                 self.sock.sendto(last, (self.host, self.port))
                 self.receivePacket(last)
                 self.numer = (self.numer + 1) % 65536
+
             if k == WRONG_NUMBER:
                 self.receivePacket(last)
 
     def getCode(self):
-        return hashlib.md5(self.file).hexdigest()
+        return self.kod.hexdigest()
 
     def getFile(self):
         return self.file
@@ -89,4 +97,5 @@ class tftpDownloader:
 
 t = tftpDownloader(str(sys.argv[1]), str(sys.argv[2]))
 t.start()
+print(t.getFile())
 print(t.getCode())
