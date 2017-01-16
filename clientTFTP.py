@@ -5,7 +5,6 @@ import socket
 import struct
 import hashlib
 
-
 EMPTY = 0
 RRQ = 1
 WRQ = 2
@@ -72,13 +71,15 @@ class tftpDownloader:
 
     def start(self):
         self.requestDownloadFile()
-        
+
         while True:
             k = self.check(self.msg)
             last = str(struct.pack('!HH', ACK, self.numer))
 
             if k == END:
-            	break
+                self.numer = (self.numer + 1) % 65536
+                self.sock.sendto(last, (self.host, self.port))
+                break
 
             if k == NEXT:
                 self.sock.sendto(last, (self.host, self.port))
