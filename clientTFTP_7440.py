@@ -16,11 +16,12 @@ WRONG_NUMBER = 20
 NEXT = 30
 PORT = int(sys.argv[3])
 MAX_SIZE = 512
+WINDOWSIZE = int(sys.argv[4])
 
 
 class tftpDownloader:
     def __init__(self, host, filename):
-        self.numer = 1
+        self.numer = 0
         self.host = host
         self.port = PORT
         self.empty = str(struct.pack('!H', EMPTY))
@@ -32,62 +33,62 @@ class tftpDownloader:
         self.filename = filename
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.octet = "octet"
-        self.msg = 0
+        self.windowsize = "windowsize"
+        self.packet = 0
         self.addr = 0
         self.file = ""
         self.kod = hashlib.md5()
-
-    def requestDownloadFile(self):
-        message = self.rrq + self.filename + self.empty + self.octet + self.empty
-        self.sock.sendto(message, (self.host, self.port))
-        self.sock.settimeout(0.1)
-        self.receivePacket(message)
-        self.host = self.addr[0]
-        self.port = int(self.addr[1])
-
-    def check(self, out):
-        text = struct.unpack('!HH', out[:4])
-        if text[0] == DATA and text[1] == self.numer and len(out[4:]) < MAX_SIZE:
-            self.kod.update(str(out[4:]))
-            self.file += str(out[4:])
-            return END
-        elif text[0] == DATA and text[1] == self.numer and len(out[4:]) >= MAX_SIZE:
-            self.kod.update(str(out[4:]))
-            self.file += str(out[4:])
-            return NEXT
-        elif text[0] == DATA and text[1] != self.numer and len(out[4:]) == MAX_SIZE:
-            return WRONG_NUMBER
-        else:
-            return END
+        self.confirm = 0
 
     def receivePacket(self, last):
         while True:
             try:
-                self.msg, self.addr = self.sock.recvfrom(8 * MAX_SIZE)
+                self.packet, self.addr = self.sock.recvfrom(8 * MAX_SIZE)
                 return
             except socket.timeout:
                 self.sock.sendto(last, (self.host, self.port))
-        self.msg = seld.addr = 0
+        self.packet = seld.addr = 0
 
     def start(self):
-        self.requestDownloadFile()
+        self.message = self.rrq + self.filename + self.empty + self.octet + self.empty + self.windowsize + self.empty + str(
+            WINDOWSIZE) + self.empty
+        self.sock.sendto(self.message, (self.host, self.port))
+        self.sock.settimeout(0.1)
+        self.receivePacket(self.message)
+        self.host = self.addr[0]
+        self.port = int(self.addr[1])
 
         while True:
-            k = self.check(self.msg)
-            last = str(struct.pack('!HH', ACK, self.numer))
+            finish = 0
+            error = 0
+            text = struct.unpack('!HH', self.packet[:4])
 
-            if k == END:
-                self.numer = (self.numer + 1) % 65536
+            if text[0] == DATA and text[1] == self.numer + 1 and len(self.packet[4:]) < MAX_SIZE:
+                self.kod.update(str(self.packet[4:]))
+                self.file += str(self.packet[4:])
+                self.numer += 1
+                finish = 1
+            elif text[0] == DATA and text[1] == self.numer + 1 and len(self.packet[4:]) >= MAX_SIZE:
+                self.kod.update(str(self.packet[4:]))
+                self.file += str(self.packet[4:])
+                self.numer += 1
+            elif text[0] == DATA and text[1] != self.numer + 1 and len(self.packet[4:]) == MAX_SIZE:
+                last = str(struct.pack('!HH', ACK, self.numer))
+                self.sock.sendto(last, (self.host, self.port))
+                error = 1
+            else:
+                break
+
+            if (self.numer - self.confirm) == WINDOWSIZE and error == 0:
+                last = str(struct.pack('!HH', ACK, self.numer))
+                self.sock.sendto(last, (self.host, self.port))
+
+            if finish == 1:
+                last = str(struct.pack('!HH', ACK, self.numer))
                 self.sock.sendto(last, (self.host, self.port))
                 break
 
-            if k == NEXT:
-                self.sock.sendto(last, (self.host, self.port))
-                self.receivePacket(last)
-                self.numer = (self.numer + 1) % 65536
-
-            if k == WRONG_NUMBER:
-                self.receivePacket(last)
+            self.receivePacket(str(struct.pack('!HH', ACK, self.numer)))
 
     def getCode(self):
         return self.kod.hexdigest()

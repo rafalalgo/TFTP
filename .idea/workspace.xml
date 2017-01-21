@@ -6,8 +6,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Description/TftpDescription.synctex.gz" afterPath="$PROJECT_DIR$/Description/TftpDescription.synctex.gz" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Description/TftpDescription.log" afterPath="$PROJECT_DIR$/Description/TftpDescription.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Description/TftpDescription.tex" afterPath="$PROJECT_DIR$/Description/TftpDescription.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientTFTP.py" afterPath="$PROJECT_DIR$/clientTFTP.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientTFTP_7440.py" afterPath="$PROJECT_DIR$/clientTFTP_7440.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serverTFTP.py" afterPath="$PROJECT_DIR$/serverTFTP.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serverTFTP_7440.py" afterPath="$PROJECT_DIR$/serverTFTP_7440.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,23 +23,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="clientTFTP.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clientTFTP.py">
+      <file leaf-file-name="serverTFTP_7440.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/serverTFTP_7440.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="58" column="12" lean-forward="false" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
-              <folding>
-                <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
-              </folding>
+            <state relative-caret-position="-878">
+              <caret line="36" column="37" lean-forward="true" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serverTFTP.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/serverTFTP.py">
+      <file leaf-file-name="clientTFTP_7440.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/clientTFTP_7440.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-590">
-              <caret line="24" column="28" lean-forward="true" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+            <state relative-caret-position="-936">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -54,6 +53,8 @@
       <list>
         <option value="$PROJECT_DIR$/clientTFTP.py" />
         <option value="$PROJECT_DIR$/serverTFTP.py" />
+        <option value="$PROJECT_DIR$/serverTFTP_7440.py" />
+        <option value="$PROJECT_DIR$/clientTFTP_7440.py" />
       </list>
     </option>
   </component>
@@ -84,6 +85,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -99,7 +101,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -128,7 +129,7 @@
     <frame x="57" y="-4" width="1309" height="772" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16547902" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16785431" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -161,10 +162,28 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/clientTFTP.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1044">
+          <caret line="58" column="12" lean-forward="false" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
+          <folding>
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serverTFTP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientTFTP.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1062">
           <caret line="59" column="12" lean-forward="false" selection-start-line="59" selection-start-column="12" selection-end-line="59" selection-end-column="12" />
           <folding>
-            <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
           </folding>
         </state>
       </provider>
@@ -182,7 +201,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
           </folding>
         </state>
       </provider>
@@ -192,7 +211,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
           </folding>
         </state>
       </provider>
@@ -202,7 +221,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
           </folding>
         </state>
       </provider>
@@ -212,7 +231,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
           </folding>
         </state>
       </provider>
@@ -222,25 +241,41 @@
         <state relative-caret-position="882">
           <caret line="49" column="37" lean-forward="false" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
           <folding>
-            <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clientTFTP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="58" column="12" lean-forward="false" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
+        <state relative-caret-position="1296">
+          <caret line="75" column="36" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
           <folding>
-            <marker date="1484532682555" expanded="true" signature="270:823" ph="..." />
+            <marker date="1484960773136" expanded="true" signature="270:823" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/serverTFTP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-590">
-          <caret line="24" column="28" lean-forward="true" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+        <state relative-caret-position="360">
+          <caret line="24" column="28" lean-forward="false" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serverTFTP_7440.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-878">
+          <caret line="36" column="37" lean-forward="true" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientTFTP_7440.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-936">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>

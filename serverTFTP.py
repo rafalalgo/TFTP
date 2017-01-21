@@ -60,26 +60,33 @@ class tftpSender:
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 sock.bind(('localhost', PORT))
-while True:
-    wait = 1
-    while True:
-        if wait == 1:
-            print("Oczekuje klienta...")
-            wait = 2
-        packet, client = sock.recvfrom(MAX_SIZE)
-        opcode = struct.unpack("!H", packet[0:2])[0]
-        if opcode == RRQ:
-            mode = packet[packet[2:].index("\0") + 3:-1].lower()
-            if mode[1:-1] == "octet":
-                break
+sock.settimeout(0.1)
 
-    print("Klient poprosil o plik: " + PATH + packet[2:packet[2:].index("\0") + 2])
+wait = 1
+
+while True:
     try:
-        theFile = open(PATH + packet[2:packet[2:].index("\0") + 2], "r")
-        print("Rozpoczynam wysylanie...")
-        send = tftpSender(theFile, client, sock)
-        send.transmitFile()
-        print("Gotowe!\n")
-    except IOError:
-        print("Klient podal bledna nazwe pliku.\n");
-        sock.sendto(struct.pack("!H%ds" % len("Invalid name."), ERROR, "Invalid name."), client)
+        while True:
+            if wait == 1:
+                print("Oczekuje klienta...")
+                wait = 2
+            packet, client = sock.recvfrom(MAX_SIZE)
+            opcode = struct.unpack("!H", packet[0:2])[0]
+            if opcode == RRQ:
+                mode = packet[packet[2:].index("\0") + 3:-1].lower()
+                if mode[1:-1] == "octet":
+                    break
+
+        print("Klient poprosil o plik: " + PATH + packet[2:packet[2:].index("\0") + 2])
+        try:
+            theFile = open(PATH + packet[2:packet[2:].index("\0") + 2], "r")
+            print("Rozpoczynam wysylanie...")
+            send = tftpSender(theFile, client, sock)
+            send.transmitFile()
+            print("Gotowe!\n")
+            wait = 1
+        except IOError:
+            print("Klient podal bledna nazwe pliku.\n");
+            sock.sendto(struct.pack("!H%ds" % len("Invalid name."), ERROR, "Invalid name."), client)
+    except socket.timeout:
+        pass
