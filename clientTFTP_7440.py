@@ -50,8 +50,7 @@ class tftpDownloader:
         self.packet = seld.addr = 0
 
     def start(self):
-        self.message = self.rrq + self.filename + self.empty + self.octet + self.empty + self.windowsize + self.empty + str(
-            WINDOWSIZE) + self.empty
+        self.message = self.rrq + self.filename + self.empty + self.octet + self.empty + self.windowsize + self.empty + str(WINDOWSIZE) + self.empty
         self.sock.sendto(self.message, (self.host, self.port))
         self.sock.settimeout(0.1)
         self.receivePacket(self.message)
