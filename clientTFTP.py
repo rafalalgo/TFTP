@@ -41,12 +41,13 @@ class tftpDownloader:
         message = self.rrq + self.filename + self.empty + self.octet + self.empty
         self.sock.sendto(message, (self.host, self.port))
         self.sock.settimeout(0.1)
-        self.receivePacket(message)
+        self.receivePacket(message, 1)
         self.host = self.addr[0]
         self.port = int(self.addr[1])
 
     def check(self, out):
         text = struct.unpack('!HH', out[:4])
+        
         if text[0] == DATA and text[1] == self.numer and len(out[4:]) < MAX_SIZE:
             self.kod.update(str(out[4:]))
             self.file += str(out[4:])
@@ -55,18 +56,22 @@ class tftpDownloader:
             self.kod.update(str(out[4:]))
             self.file += str(out[4:])
             return NEXT
-        elif text[0] == DATA and text[1] != self.numer and len(out[4:]) == MAX_SIZE:
+        elif text[0] == DATA and text[1] == self.numer - 1:
+            self.sock.sendto(str(struct.pack('!HH', ACK, text[1])), (self.host, self.port))
             return WRONG_NUMBER
-        else:
-            return END
+        elif text[0] == DATA:
+            return WRONG_NUMBER
 
-    def receivePacket(self, last):
+    def receivePacket(self, last, tr):
         while True:
             try:
                 self.msg, self.addr = self.sock.recvfrom(8 * MAX_SIZE)
                 return
             except socket.timeout:
-                self.sock.sendto(last, (self.host, self.port))
+                if tr == 1:
+                    self.sock.sendto(last, (self.host, self.port))
+                else:
+                    self.sock.sendto(str(struct.pack('!HH', ACK, self.numer - 1)), (self.host, self.port))
         self.msg = seld.addr = 0
 
     def start(self):
@@ -83,11 +88,11 @@ class tftpDownloader:
 
             if k == NEXT:
                 self.sock.sendto(last, (self.host, self.port))
-                self.receivePacket(last)
+                self.receivePacket(last, 0)
                 self.numer = (self.numer + 1) % 65536
 
             if k == WRONG_NUMBER:
-                self.receivePacket(last)
+                self.receivePacket(last, 0)
 
     def getCode(self):
         return self.kod.hexdigest()

@@ -44,12 +44,13 @@ class tftpSender:
             self.sock.sendto(struct.pack("!HH%ds" % len(self.data[i][1]), DATA, i, self.data[i][1]), self.client)
 
     def ack(self, blockNumber):
-        print("Klient potwierdzil paczke: " + str(blockNumber))
-        if len(self.data[blockNumber][1]) < 512:
-            self.confirm = blockNumber
-            return True
-        else:
-            self.confirm = blockNumber
+        if blockNumber >= 1:
+            print("Klient potwierdzil paczke: " + str(blockNumber))
+            if len(self.data[blockNumber][1]) < 512:
+                self.confirm = blockNumber
+                return True
+            else:
+                self.confirm = blockNumber
 
     def transmitFile(self):
         self.load()
